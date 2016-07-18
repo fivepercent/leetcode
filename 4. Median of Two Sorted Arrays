@@ -1,0 +1,55 @@
+public class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if(nums1==null&&nums2==null){
+            throw new IllegalArgumentException("No median found");
+        }
+        int length=0;
+        int[] combined;
+        if(nums1==null){
+            length=nums2.length;
+            combined=nums2;
+        }else if(nums2==null){
+            length=nums1.length;
+            combined=nums1;
+        }else{
+            length=nums1.length+nums2.length;
+            combined= merge(nums1, nums2);
+        }
+        boolean isOdd = (length%2==1);
+        double result;
+        if(isOdd){
+            result =combined[length/2];
+        }else{
+            result = (double)(combined[length/2]+combined[(length/2)-1])/2;
+        }
+        return result;
+    }
+    public int[] merge(int[] nums1, int[] nums2){
+        int[] merged= new int[nums1.length+nums2.length];
+        int pointer1=0;
+        int pointer2=0;
+        int current=0;
+        while(pointer1<nums1.length&&pointer2<nums2.length){
+            if(nums1[pointer1]<nums2[pointer2]){
+                merged[current]=nums1[pointer1];
+                pointer1++;
+            }else{
+                merged[current]=nums2[pointer2];
+                pointer2++;
+            }
+            current++;
+        }
+        if(pointer1==nums1.length){
+            int remainder = nums2.length-pointer2;
+            for(int i=0; i<remainder; i++){
+                merged[current+i]=nums2[pointer2+i];
+            }
+        }else{
+            int remainder = nums1.length-pointer1;
+            for(int i=0; i<remainder; i++){
+                merged[current+i]=nums1[pointer1+i];
+            }
+        }
+        return merged;
+    }
+}
