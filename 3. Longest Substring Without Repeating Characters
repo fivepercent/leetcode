@@ -1,0 +1,25 @@
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s==null){
+            return 0;
+        }
+        int[] cTable= new int[128];
+        int maxLength=0;
+        int currentLength=0;
+        int head=0;
+        for(int i=0;i<s.length();i++){
+            int index = s.charAt(i);
+            if(cTable[index]==0||cTable[index]<head){
+                cTable[index]=i+1;
+                currentLength++;
+            }else{
+                maxLength=Math.max(maxLength, currentLength);
+                currentLength=i+1-cTable[index];
+                head=cTable[index]+1;
+                cTable[index]=i+1;
+            }
+        }
+        maxLength=Math.max(maxLength, currentLength);
+        return maxLength;
+    }
+}
