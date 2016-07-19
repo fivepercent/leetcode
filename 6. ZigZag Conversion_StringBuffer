@@ -1,0 +1,31 @@
+public class Solution {
+    public String convert(String s, int numRows) {
+        if(numRows<=1){
+            return s;
+        }
+        StringBuffer[] cache=new StringBuffer[numRows];
+        for(int i=0; i<numRows;i++){
+            cache[i] = new StringBuffer();
+        }
+        int index=0;
+        boolean forward=true;
+        for(int i=0; i<s.length();i++){
+            cache[index].append(s.charAt(i));
+            if(index==0){
+                forward=true;
+            }else if(index==numRows-1){
+                forward=false;
+            }
+            if(forward){
+                index++;
+            }else{
+                index--;
+            }
+        }
+        String result="";
+        for(int i=0; i<numRows; i++){
+            result +=cache[i].toString();
+        }
+        return result;
+    }
+}
