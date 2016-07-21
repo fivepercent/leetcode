@@ -1,0 +1,18 @@
+public class Solution {
+    public int maxArea(int[] height) {
+        int p1=0;
+        int p2=height.length-1;
+        int maxWater=0;
+        int water=0;
+        int shorterline=0;
+        while(p1<p2){
+            maxWater=Math.max(maxWater, (p2-p1)*Math.min(height[p1], height[p2]));
+            if(height[p1]>height[p2]){
+                p2--;
+            }else{
+                p1++;
+            }
+        }
+        return maxWater;
+    }
+}
