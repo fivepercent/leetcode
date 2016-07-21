@@ -1,0 +1,69 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        int[][] cache = new int[s.length()+1][p.length()+1];
+        return isMatch_DP(s, 0, p, 0 , cache);
+    }
+    public boolean isMatch_DP(String s, int i, String p, int j, int[][] cache){
+        if(cache[i][j]!=0){
+            return cache[i][j]==2?true:false;
+        }
+        //s, p are both empty
+        if(i>=s.length()){
+            if(checkEmpty(p, j)){
+                cache[i][j]=2;
+                return true;
+            }else{
+                cache[i][j]=1;
+                return false;
+            }
+        }
+        //p is empty, snot
+        if(j>=p.length()){
+            cache[i][j]=1;
+            return false;
+        }
+        
+        //next is *
+        if((j<p.length()-1)&&p.charAt(j+1)=='*'){
+            if(compare(s.charAt(i), p.charAt(j))){
+                if(isMatch_DP(s, i+1, p, j, cache)||isMatch_DP(s, i, p, j+2, cache)){
+                    cache[i][j]=2;
+                    return true;
+                }
+            }else{
+                if(isMatch_DP(s, i, p, j+2, cache)){
+                    cache[i][j]=2;
+                    return true;
+                }
+            }
+            cache[i][j]=1;
+            return false;
+        }else{
+            if(compare(s.charAt(i), p.charAt(j))&&isMatch_DP(s, i+1, p, j+1, cache)){
+                cache[i][j]=2;
+                return true;
+            }else{
+                cache[i][j]=1;
+                return false;
+            }
+        }
+    }
+    public boolean compare (char c1, char c2){
+        return c2=='.'||c1==c2;
+    }
+    public boolean checkEmpty(String str, int index){
+        if(index>=str.length()){
+            return true;
+        }
+        int len = str.length()-index;
+        if(len%2!=0){
+            return false;
+        }
+        for(int i=1; i<len; i+=2){
+            if(str.charAt(index+i)!='*'){
+                return false;
+            }
+        }
+        return true;
+    }
+}
