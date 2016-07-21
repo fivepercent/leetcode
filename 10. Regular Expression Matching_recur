@@ -1,0 +1,37 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        if(s.length()==0){
+            return checkEmpty(p);
+        }
+        if(p.length()==0){
+            return false;
+        }
+        int i=0;
+        if(p.length()>1&&p.charAt(1)=='*'){
+            if(compare(s.charAt(0), p.charAt(0))){
+                return isMatch(s.substring(1), p.substring(0))||isMatch(s.substring(0), p.substring(2));
+            }else{
+                return isMatch(s.substring(0), p.substring(2));
+            }
+        }else {
+            if(compare(s.charAt(0), p.charAt(0))){
+                return isMatch(s.substring(1), p.substring(1));
+            }
+        }
+        return false;
+    }
+    public boolean checkEmpty(String p){
+        if(p.length()%2!=0){
+            return false;
+        }
+        for(int i=1;i<p.length();i+=2){
+            if(p.charAt(i)!='*'){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean compare(char c1, char c2){
+        return c2=='.'||c1==c2;
+    }
+}
