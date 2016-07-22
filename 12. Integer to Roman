@@ -1,0 +1,55 @@
+public class Solution {
+    public String intToRoman(int num) {
+        if(num>3999||num<1){
+            return null;
+        }
+        StringBuilder result= new StringBuilder();
+        char[] roman_symbol={'I', 'V', 'L', 'C', 'D', 'M'};
+        for(int i=3;i>=0;i--){
+            int digit=num/(10^i);
+            result.append(digitConvert(digit, 3, roman_symbol));
+            num%=(10^i);
+        }
+        return result.toString();
+    }
+    public String digitConvert(int digit, int position, char[] roman_symbol){
+        char s1;
+        char s2;
+        char s3;
+        StringBuilder result= new StringBuilder();
+        if(position==3){
+            s1=roman_symbol[position];
+            s2=roman_symbol[position];
+            s3=roman_symbol[position];
+        }else{
+            s1=roman_symbol[position];
+            s2=roman_symbol[position+1];
+            s3=roman_symbol[position+2];
+        }
+        switch(digit){
+            case 0: result.append("");return result.toString();
+            case 1: result.append(s1);return result.toString();
+            case 2: result.append(s1);
+                    result.append(s1);return result.toString();
+            case 3: result.append(s1);
+                    result.append(s1);
+                    result.append(s1);return result.toString();
+            case 4: result.append(s1);
+                    result.append(s2);return result.toString();
+            case 5: result.append(s2);return result.toString();
+            case 6: result.append(s2);
+                    result.append(s1);return result.toString();
+            case 7: result.append(s2);
+                    result.append(s1);
+                    result.append(s1);return result.toString();
+            case 8: result.append(s2);
+                    result.append(s1);
+                    result.append(s1);
+                    result.append(s1);return result.toString();
+            case 9: result.append(s1);
+                    result.append(s3);return result.toString();
+            default: return "";
+        }
+        
+    }
+}
