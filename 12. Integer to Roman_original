@@ -5,9 +5,11 @@ public class Solution {
         }
         StringBuilder result= new StringBuilder();
         char[] roman_symbol={'I', 'V', 'X', 'L', 'C', 'D', 'M'};
+        int scale =1000;
         for(int i=3;i>=0;i--){
-            int digit=num/(int)Math.pow(10, i);
-            num%=Math.pow(10, i);
+            int digit=num/scale;
+            num%=scale;
+            scale/=10;
             if(digit==0){
                 continue;
             }
