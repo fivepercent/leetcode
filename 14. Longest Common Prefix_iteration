@@ -1,0 +1,33 @@
+public class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs==null||strs.length==0){
+            return "";
+        }
+        if(strs.length==1){
+            return strs[0];
+        }
+        String currentPrefix=getCommonPrefix(strs[0], strs[1]);
+        for(int i=2; i<strs.length;i++){
+            currentPrefix=getCommonPrefix(strs[i], currentPrefix);
+        }
+        return currentPrefix;
+    }
+    public String getCommonPrefix(String str1, String str2){
+        if(str1==null||str2==null){
+            return "";
+        }
+        StringBuilder prefix=new StringBuilder();
+        int index=0;
+        while(index<str1.length()&&index<str2.length()){
+            char c1=str1.charAt(index);
+            char c2=str2.charAt(index);
+            if(c1==c2){
+                prefix.append(c1);
+                index++;
+            }else{
+                break;
+            }
+        }
+        return prefix.toString();
+    }
+}
