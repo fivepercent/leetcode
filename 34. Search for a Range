@@ -1,0 +1,26 @@
+public class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums==null||nums.length==0){
+            return new int[] {-1, -1};
+        }
+        return search(nums, 0, nums.length-1, target);
+    }
+    public int[] search(int[] nums, int start, int end, int target){
+        if(start==end){
+            return nums[start]==target?new int[] {start, start}:new int[] {-1, -1};
+        }
+        int mid =(start+end)/2;
+        if(nums[mid]==target){
+            int up=mid+1;
+            int down=mid-1;
+            while(up<=end&&nums[up]==target)up++;
+            while(down>=start&&nums[down]==target)down--;
+            return new int[] {down+1, up-1};
+        }
+        if(nums[mid]>target){
+            return search(nums, start, mid, target);
+        }else{
+            return search(nums, mid+1, end, target);
+        }
+    }
+}
