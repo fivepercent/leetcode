@@ -1,0 +1,50 @@
+public class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        boolean[] visited=new boolean[9];
+        
+        //row
+        for(int i=0; i<9; i++){
+            Arrays.fill(visited, false);
+            for(int j=0; j<9; j++){
+                if(!process(visited, board[i][j])){
+                    return false;
+                }
+            }
+        }
+        
+        //column
+        for(int j=0; j<9; j++){
+            Arrays.fill(visited, false);
+            for(int i=0; i<9; i++){
+                if(!process(visited, board[i][j])){
+                    return false;
+                }
+            }
+        }
+        
+        //square
+        for(int n=0; n<9; n++){
+            Arrays.fill(visited, false);
+            for(int i=0; i<3; i++){
+                for(int j=0; j<3; j++){
+                    if(!process(visited, board[i+(n/3)*3][j+(n%3)*3])){
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+    public boolean process(boolean[] visited, char fill){
+        if(fill=='.'){
+            return true;
+        }
+        int num=fill-'0';
+        if(num<=9&&num>=1&&!visited[num-1]){
+            visited[num-1]=true;
+            return true;
+        }
+        return false;
+    }
+}
