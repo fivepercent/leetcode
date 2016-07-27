@@ -1,0 +1,40 @@
+public class Solution {
+    public int search(int[] nums, int target) {
+        if(nums==null||nums.length==0){
+            return -1;
+        }
+        return search(nums, 0, nums.length-1, target);
+    }
+    public int search(int[] nums, int start, int end, int target){
+        if(start==end){
+            return nums[start]==target?start:-1;
+        }
+        int mid = (start+end)/2;
+        if(nums[mid]==target){
+            return mid;
+        }
+        if(target>nums[mid]){
+            if(nums[start]<nums[mid]){
+                return search(nums, mid+1, end, target);
+            }else{
+                int tmp = search(nums, mid+1, end, target);
+                if(tmp!=-1){
+                    return tmp;
+                }else{
+                    return search(nums, start, mid, target);
+                }
+            }
+        }else{
+            if(nums[start]>nums[mid]){
+                return search(nums, start, mid, target);
+            }else{
+                int tmp = search(nums, start, mid, target);
+                if(tmp!=-1){
+                    return tmp;
+                }else{
+                    return search(nums, mid+1, end, target);
+                }
+            }
+        }
+    }
+}
