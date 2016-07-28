@@ -33,7 +33,9 @@ public class Solution {
                         cyclicalAdd(list, candidates[start], cycle);
                     }
                 }
-                combinations.addAll(lists);
+                if(lists!=null&&!lists.isEmpty()){
+                    combinations.addAll(lists);
+                }
             }
         }
         return combinations;
