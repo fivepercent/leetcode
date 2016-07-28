@@ -1,0 +1,30 @@
+public class Solution {
+    public int trap(int[] height) {
+        int valume=0;
+        if(height==null||height.length<2){
+            return valume;
+        }
+        int left=0;
+        int right=height.length-1;
+        int level=0;
+        int total_v=0;
+        while(left<right){
+            if(height[left]>height[right]){
+                if(height[right]>level){
+                    total_v+=(height[right]-level)*(right-left+1);
+                    level=height[right];
+                }
+                total_v-=height[right];
+                right--;
+            }else{
+                if(height[left]>level){
+                    total_v+=(height[left]-level)*(right-left+1);
+                    level=height[left];
+                }
+                total_v-=height[left];
+                left++;
+            }
+        }
+        return total_v-level;
+    }
+}
