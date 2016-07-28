@@ -1,0 +1,75 @@
+public class Solution {
+    public void solveSudoku(char[][] board) {
+        solve(board);
+    }
+    
+    public boolean solve(char[][] board){
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                if(board[i][j]!='.'){
+                    continue;
+                }
+                
+                for(int m=0; m<9; m++){
+                    board[i][j]=(char)(m+'1');
+                    if(isValid(board, i, j)&&solve(board)){
+                        return true;
+                    }
+                    board[i][j]='.';
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isValid(char[][] board, int a ,int b){
+        if(board[a][b]<'1'||board[a][b]>'9'){
+            return false;
+        }
+        boolean[] visited = new boolean[9];
+        
+        //row
+        for(int i=0; i<9; i++){
+            Arrays.fill(visited, false);
+            for(int j=0; j<9; j++){
+                if(!process(visited, board[i][j])){
+                    return false;
+                }
+            }
+        }
+        
+        //column
+        for(int j=0; j<9; j++){
+            Arrays.fill(visited, false);
+            for(int i=0; i<9; i++){
+                if(!process(visited, board[i][j])){
+                    return false;
+                }
+            }
+        }
+        
+        //square
+        for(int n=0; n<9; n++){
+            Arrays.fill(visited, false);
+            for(int i=0; i<3;i++){
+                for(int j=0; j<3; j++){
+                    if(!process(visited, board[i+(n/3)*3][j+(n%3)*3])){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    public boolean process(boolean[] visited, char c){
+        if(c=='.') return true;
+        if(c<'1'||c>'9'){
+            return false;
+        }
+        if(!visited[c-'1']){
+            visited[c-'1']=true;
+            return true;
+        }
+        return false;
+    }
+}
