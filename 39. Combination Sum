@@ -1,18 +1,17 @@
 public class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
         if(candidates==null||candidates.length==0){
-            return null;
+            return result;
         }
-        return canBeCombination(candidates, 0, target);
+        result = canBeCombination(candidates, 0, target);
+        return result==null?new ArrayList<List<Integer>>():result;
     }
     public List<List<Integer>> canBeCombination(int[] candidates, int start, int target){
         List<List<Integer>> combinations = new ArrayList<List<Integer>>();
         if(target==0){
             combinations.add(new ArrayList<Integer>());
             return combinations;
-        }
-        if(target<candidates[start]){
-            return null;
         }
         if(start==candidates.length-1){
             if(target%candidates[start]==0){
@@ -25,7 +24,7 @@ public class Solution {
             }
         }else{
             int cycle=target/candidates[start];
-            while(cycle-->=0){
+            while(cycle>=0){
                 List<List<Integer>> lists=new ArrayList<List<Integer>>();
                 lists=canBeCombination(candidates, start+1, target-cycle*candidates[start]);
                 if(lists!=null){
@@ -36,6 +35,7 @@ public class Solution {
                 if(lists!=null&&!lists.isEmpty()){
                     combinations.addAll(lists);
                 }
+                cycle--;
             }
         }
         return combinations;
