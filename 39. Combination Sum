@@ -1,0 +1,46 @@
+public class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        if(candidates==null||candidates.length==0){
+            return null;
+        }
+        return canBeCombination(candidates, 0, target);
+    }
+    public List<List<Integer>> canBeCombination(int[] candidates, int start, int target){
+        List<List<Integer>> combinations = new ArrayList<List<Integer>>();
+        if(target==0){
+            combinations.add(new ArrayList<Integer>());
+            return combinations;
+        }
+        if(target<candidates[start]){
+            return null;
+        }
+        if(start==candidates.length-1){
+            if(target%candidates[start]==0){
+                List<Integer> combination = new ArrayList<Integer>();
+                cyclicalAdd(combination, candidates[start], target/candidates[start]);
+                combinations.add(combination);
+                return combinations;
+            }else{
+                return null;
+            }
+        }else{
+            int cycle=target/candidates[start];
+            while(cycle-->=0){
+                List<List<Integer>> lists=new ArrayList<List<Integer>>();
+                lists=canBeCombination(candidates, start+1, target-cycle*candidates[start]);
+                if(lists!=null){
+                    for(List<Integer> list: lists){
+                        cyclicalAdd(list, candidates[start], cycle);
+                    }
+                }
+                combinations.addAll(lists);
+            }
+        }
+        return combinations;
+    }
+    public void cyclicalAdd(List<Integer> list, int num, int cycle){
+        while(cycle-->0){
+            list.add(num);
+        }
+    }
+}
