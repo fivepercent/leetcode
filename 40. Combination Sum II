@@ -1,0 +1,30 @@
+public class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if(candidates==null||candidates.length==0){
+            return result;
+        }
+        Arrays.sort(candidates);
+        List<Integer> path = new ArrayList<Integer>();
+        combinationSumHelp(candidates, 0, path, target, result);
+        return result;
+    }
+    public void combinationSumHelp(int[] candidates, int index, List<Integer> path, int target, List<List<Integer>> result){
+        if(target==0){
+            result.add(new ArrayList<Integer>(path));
+            return;
+        }
+        int pre=-1;
+        for(int i=index; i<candidates.length; i++){
+            if(target<candidates[i]){
+                break;
+            }
+            if(candidates[i]!=pre){
+                path.add(candidates[i]);
+                combinationSumHelp(candidates, i+1, path, target-candidates[i], result);
+                path.remove(path.size()-1);
+                pre=candidates[i];
+            }
+        }
+    }
+}
