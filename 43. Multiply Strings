@@ -1,0 +1,28 @@
+public class Solution {
+    public String multiply(String num1, String num2) {
+        if(num1.equals("0")||num2.equals("0")){
+            return "0";
+        }
+        int[] result=new int[num1.length()+num2.length()+1];
+        int carry=0;
+        for(int i=num1.length()-1; i>=0;i--){
+            int digit1=num1.charAt(i)-'0';
+            int index1=num1.length()-1-i;
+            for(int j=num2.length()-1; j>=0; j--){
+                int digit2= num2.charAt(j)-'0';
+                int index2=num2.length()-1-j;
+                int sum=result[index1+index2]+digit1*digit2;
+                result[index1+index2]=sum%10;
+                result[index1+index2+1]+=sum/10;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for(int i=result.length-1;i>=0;i--){
+            if(result[i]==0&&res.length()==0){
+                continue;
+            }
+            res.append(result[i]);
+        }
+        return res.toString();
+    }
+}
