@@ -1,0 +1,26 @@
+public class Solution {
+    public int jump(int[] nums) {
+        if(nums==null||nums.length==0){
+            return 0;
+        }
+        int[] records=new int[nums.length];
+        records[nums.length-1]=0;
+        for(int i=nums.length-2; i>=0;i--){
+            int min=Integer.MAX_VALUE;
+            if(nums[i]==0){
+                records[i]=Integer.MAX_VALUE;
+            }else{
+                int j=1;
+                while(j<nums[i]){
+                    if(i+j<nums.length){
+                        min = Math.min(min, records[i+j]+1);
+                    }
+                    j++;
+                }
+                records[i]=min;
+            }
+            
+        }
+        return records[0];
+    }
+}
