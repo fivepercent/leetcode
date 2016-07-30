@@ -1,0 +1,22 @@
+public class Solution {
+    public int jump(int[] nums) {
+        if(nums==null||nums.length==0){
+            return 0;
+        }
+        int start=0;
+        int end=0;
+        int count=0;
+        while(end<nums.length-1){
+            count++;
+            int farest=end;
+            for(int i=start; i<=end; i++){
+                if(i+nums[i]>farest){
+                    farest=i+nums[i];
+                }
+            }
+            start=end+1;
+            end=farest;
+        }
+        return count;
+    }
+}
