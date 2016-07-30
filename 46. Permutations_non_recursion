@@ -1,0 +1,37 @@
+public class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>> ();
+        if(nums==null||nums.length==0){
+            return result;
+        }
+        int len = nums.length;
+        Stack<Integer> stack = new Stack<Integer>();
+        stack.add(-1);
+        while(!stack.isEmpty()){
+            int last = stack.get(stack.size()-1);
+            stack.remove(stack.size()-1);
+            int next=-1;
+            for(int i=last+1; i<len; i++){
+                if(!stack.contains(i)){
+                    stack.add(i);
+                    next=i;
+                    break;
+                }
+            }
+            if(next==-1){
+                continue;
+            }
+            for(int i=0; i<len; i++){
+                if(!stack.contains(i)){
+                    stack.add(i);
+                }
+            }
+            ArrayList<Integer> permuation = new ArrayList<Integer>();
+            for(int i=0; i<stack.size(); i++){
+                permuation.add(nums[stack.get(i)]);
+            }
+            result.add(permuation);
+        }
+        return result;
+    }
+}
