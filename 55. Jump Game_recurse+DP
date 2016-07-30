@@ -1,0 +1,24 @@
+public class Solution {
+    public boolean canJump(int[] nums) {
+        if(nums==null||nums.length==0){
+            return false;
+        }
+        int[] DP = new int[nums.length];
+        return canJump(nums, 0, DP);
+    }
+    public boolean canJump(int[] nums, int index, int[] DP){
+        if(DP[index]!=0){
+            return DP[index]==1;
+        }
+        if(nums[index]+index>=nums.length-1){
+            DP[index]=1;
+            return true;
+        }
+        for(int i=nums[index]; i>=1; i--){
+            if(canJump(nums, index+i, DP)){
+                return true;
+            }
+        }
+        return false;
+    }
+}
