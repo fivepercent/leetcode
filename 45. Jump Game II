@@ -3,24 +3,17 @@ public class Solution {
         if(nums==null||nums.length==0){
             return 0;
         }
-        int[] records=new int[nums.length];
-        records[nums.length-1]=0;
-        for(int i=nums.length-2; i>=0;i--){
-            int min=Integer.MAX_VALUE;
-            if(nums[i]==0){
-                records[i]=Integer.MAX_VALUE;
-            }else{
-                int j=1;
-                while(j<nums[i]){
-                    if(i+j<nums.length){
-                        min = Math.min(min, records[i+j]+1);
-                    }
-                    j++;
+        int[] DPtable = new int[nums.length];
+        DPtable[0]=0;
+        for(int i=1; i<nums.length; i++){
+            DPtable[i]=Integer.MAX_VALUE;
+            for(int j=0; j<i; j++){
+                if(DPtable[j]!=Integer.MAX_VALUE&&nums[j]+j>=i){
+                    DPtable[i]=DPtable[j]+1;
+                    break;
                 }
-                records[i]=min;
             }
-            
         }
-        return records[0];
+        return DPtable[nums.length-1];
     }
 }
