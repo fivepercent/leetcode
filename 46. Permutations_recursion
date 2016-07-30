@@ -1,0 +1,22 @@
+public class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<Integer> permutation = new ArrayList<Integer>();
+        if(nums!=null&&nums.length!=0){
+            permuteGen(nums, result, permutation);
+        }
+        return result;
+    }
+    public void permuteGen(int[] nums, List<List<Integer>> permutations, List<Integer> permutation){
+        if(permutation.size()==nums.length){
+            permutations.add(new ArrayList<Integer>(permutation));
+        }
+        for(int i=0; i<nums.length;i++){
+            if(!permutation.contains(nums[i])){
+                permutation.add(nums[i]);
+                permuteGen(nums, permutations, permutation);
+                permutation.remove(permutation.size()-1);
+            }
+        }
+    }
+}
