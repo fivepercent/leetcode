@@ -14,7 +14,10 @@ public class Solution {
             permutations.add(new ArrayList<Integer>(permutation));
         }
         for(int i=0; i<nums.length; i++){
-            if(!permutation.contains(nums[i])||(i>0&&!visited[i]&&visited[i-1]&&nums[i]==nums[i-1])){
+            if(i>0&&!visited[i-1]&&nums[i]==nums[i-1]){
+                continue;
+            }
+            if(!permutation.contains(nums[i])||(i>0&&!visited[i]&&visited[i-1])){
                 permutation.add(nums[i]);
                 visited[i]=true;
                 permuteGen(nums, visited, permutations, permutation);
