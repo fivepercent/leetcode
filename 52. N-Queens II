@@ -1,0 +1,38 @@
+public class Solution {
+    public int totalNQueens(int n) {
+        ArrayList<Integer> solution = new ArrayList<Integer>();
+        return totalNQueens(solution, n);
+    }
+    public int totalNQueens(ArrayList<Integer> solution, int n){
+        int total=0;
+        if(solution.size()==n){
+            total++;
+            return total;
+        }
+        for(int i=0; i<n; i++){
+            if(!validNQueens(solution, i)){
+                continue;
+            }
+            solution.add(i);
+            total+=totalNQueens(solution, n);
+            solution.remove(solution.size()-1);
+        }
+        return total;
+    }
+    public boolean validNQueens(ArrayList<Integer> solution, int index){
+        if(solution==null||solution.size()==0){
+            return true;
+        }
+        int size = solution.size();
+        for(int i=0; i<size; i++){
+            int col = solution.get(i);
+            if(col==index){
+                return false;
+            }
+            if(size-i==Math.abs(index-col)){
+                return false;
+            }
+        }
+        return true;
+    }
+}
