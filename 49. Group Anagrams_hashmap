@@ -19,8 +19,9 @@ public class Solution {
             list.add(strs[i]);
             map.put(key, list);
         }
-        for(String key:map.keySet()){
-            result.add(map.get(key));
+        for(List<String> list:map.values()){
+            if(list.size()>0)
+            result.add(list);
         }
         return result;
     }
