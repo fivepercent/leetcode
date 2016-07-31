@@ -21,22 +21,18 @@ public class Solution {
                     result.add(matrix[i][j]);
                 }
             }else{
-                ArrayList<Integer> top =new ArrayList<Integer>();
-                ArrayList<Integer> right=new ArrayList<Integer>();
-                ArrayList<Integer> bottom= new ArrayList<Integer>();
-                ArrayList<Integer> left= new ArrayList<Integer>();
                 for(int j=0; j<len-2*i-1;j++){
-                    top.add(matrix[i][i+j]);
-                    bottom.add(matrix[hgt-1-i][len-1-i-j]);
+                    result.add(matrix[i][i+j]);
                 }
                 for(int j=0; j<hgt-2*i-1;j++){
-                    right.add(matrix[j+i][len-1-i]);
-                    left.add(matrix[hgt-1-i-j][i]);
+                    result.add(matrix[j+i][len-1-i]);
                 }
-                result.addAll(top);
-                result.addAll(right);
-                result.addAll(bottom);
-                result.addAll(left);
+                for(int j=0; j<len-2*i-1;j++){
+                    result.add(matrix[hgt-1-i][len-1-i-j]);
+                }
+                for(int j=0; j<hgt-2*i-1;j++){
+                    result.add(matrix[hgt-1-i-j][i]);
+                }
             }
         }
         return result;
