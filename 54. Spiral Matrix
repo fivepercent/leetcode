@@ -6,34 +6,22 @@ public class Solution {
         }
         int hgt=matrix.length;
         int len=matrix[0].length;
-        if(hgt==1&&len==1){
-            result.add(matrix[0][0]);
-            return result;
-        }
-        int cycle= (Math.min(hgt, len)-1)/2;
-        for(int i=0; i<=cycle; i++){
-            if(len-i-1==i){
-                for(int j=i; j<hgt-i; j++){
-                    result.add(matrix[j][i]);
-                }
-            }else if (hgt-i-1==i){
-                for(int j=i; j<len-i; j++){
-                    result.add(matrix[i][j]);
-                }
-            }else{
-                for(int j=0; j<len-2*i-1;j++){
-                    result.add(matrix[i][i+j]);
-                }
-                for(int j=0; j<hgt-2*i-1;j++){
-                    result.add(matrix[j+i][len-1-i]);
-                }
-                for(int j=0; j<len-2*i-1;j++){
-                    result.add(matrix[hgt-1-i][len-1-i-j]);
-                }
-                for(int j=0; j<hgt-2*i-1;j++){
-                    result.add(matrix[hgt-1-i-j][i]);
-                }
+        int cycle=0;
+        while(cycle*2<hgt&&cycle*2<len){
+            for(int j=cycle; j<len-cycle; j++){
+                result.add(matrix[cycle][j]);
             }
+            for(int j=cycle+1; j<hgt-cycle; j++){
+                result.add(matrix[j][len-1-cycle]);
+            }
+            if(len-2*cycle==1||hgt-2*cycle==1)break;
+            for(int j=1; j<len-2*cycle;j++){
+                result.add(matrix[hgt-1-cycle][len-1-cycle-j]);
+            }
+            for(int j=1; j<hgt-2*cycle-1;j++){
+                result.add(matrix[hgt-1-cycle-j][cycle]);
+            }
+            cycle++;
         }
         return result;
     }
