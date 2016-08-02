@@ -27,13 +27,9 @@ public class Solution {
         while(k-->0){
             newTail=newTail.next;
         }
-        if(newTail.next==null){
-            return head;
-        }else{
-            dummy.next=newTail.next;
-            tail.next=head;
-            newTail.next=null;
-            return dummy.next;
-        }
+        tail.next=dummy.next;
+        dummy.next=newTail.next;
+        newTail.next=null;
+        return dummy.next;
     }
 }
