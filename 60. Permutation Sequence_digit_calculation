@@ -1,0 +1,25 @@
+public class Solution {
+    public String getPermutation(int n, int k) {
+        int j=1;
+        int factorial =1;
+        ArrayList<Integer> table = new ArrayList<Integer>();
+        while(j<=n){
+            factorial *=j;
+            table.add(j);
+            j++;
+        }
+        StringBuilder sb = new StringBuilder();
+        k--;
+        j--;
+        while(j>0){
+            factorial/=j;
+            int digit = k/factorial;
+            sb.append(table.get(digit));
+            table.remove(digit);
+            k=k%factorial;
+            j--;
+        }
+        return sb.toString();
+        
+    }
+}
