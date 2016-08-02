@@ -1,0 +1,27 @@
+public class Solution {
+    public int uniquePaths(int m, int n) {
+        if(m<0||n<0){
+            return 0;
+        }
+        int[][] cache = new int[m][n];
+        return uniquePaths(cache, m ,n);
+    }
+    public int uniquePaths(int[][] cache, int m, int n){
+        if(cache[m-1][n-1]!=0){
+            return cache[m-1][n-1];
+        }
+        if(m==1&&n==1){
+            cache[0][0]=1;
+            return 1;
+        }
+        int result =0;
+        if(m>1){
+            result+=uniquePaths(cache, m-1, n);
+        }
+        if(n>1){
+            result+=uniquePaths(cache, m, n-1);
+        }
+        cache[m-1][n-1]=result;
+        return result;
+    }
+}
