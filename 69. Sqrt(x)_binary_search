@@ -1,0 +1,19 @@
+public class Solution {
+    public static int mySqrt(int x) {
+        int start=0;
+        int end = x/2+1;
+        while(start<=end){
+            long mid = (start+end)/2;
+            long square = mid*mid;
+            if(square==x){
+                return (int)mid;
+            }
+            if(square>x){
+                end=(int)mid-1;
+            }else{
+                start=(int)mid+1;
+            }
+        }
+        return end;
+    }
+}
