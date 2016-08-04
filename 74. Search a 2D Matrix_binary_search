@@ -1,0 +1,35 @@
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix==null||matrix.length==0){
+            return false;
+        }
+        //first Col
+        int start=0;
+        int end=matrix.length-1;
+        while(start<end){
+            int mid=(start+end)/2;
+            if(target>=matrix[mid][0]&&target<matrix[mid+1][0]){
+                start=mid;
+                break;
+            }else if(target<matrix[mid][0]){
+                end=mid-1;
+            }else{
+                start=mid+1;
+            }
+        }
+        int rowIndex=start;
+        start=0;
+        end=matrix[0].length-1;
+        while(start<=end){
+            int mid=(start+end)/2;
+            if(target==matrix[rowIndex][mid]){
+                return true;
+            }else if(target<matrix[rowIndex][mid]){
+                end=mid-1;
+            }else{
+                start=mid+1;
+            }
+        }
+        return false;
+    }
+}
