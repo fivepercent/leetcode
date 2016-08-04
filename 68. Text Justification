@@ -1,0 +1,51 @@
+public class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result = new ArrayList<String>();
+        if(words==null||words.length==0){
+            return result;
+        }
+        int startIndex=0;
+        int length=words[0].length();
+        for(int i=1; i<words.length; i++){
+            if(length+words[i].length()+1<=maxWidth){
+                length+=words[i].length()+1;
+            }else{
+                result.add(buildString(words, startIndex, i-1, length, maxWidth));
+                startIndex=i;
+                length=words[i].length();
+            }
+        }
+        StringBuilder lastLine = new StringBuilder(words[startIndex]);
+        int tailingSpace=maxWidth-length;
+        for(int j=startIndex+1; j<words.length; j++){
+            lastLine.append(' ');
+            lastLine.append(words[j]);
+        }
+        lastLine.append(genSpace(tailingSpace));
+        result.add(lastLine.toString());
+        return result;
+    }
+    public String buildString(String[] words, int start, int end, int length, int maxWidth){
+        int extraSpace = maxWidth-length;
+        int spaceNum = end-start;
+        StringBuilder sb = new StringBuilder(words[start]);
+        //be careful about single word string
+        if(spaceNum==0){
+            sb.append(genSpace(extraSpace));
+            return sb.toString();
+        }
+        int aveSpaceNum=extraSpace/spaceNum+1;
+        for(int i=start+1; i<=end; i++){
+            sb.append(genSpace(i-start<=extraSpace%spaceNum?aveSpaceNum+1:aveSpaceNum));
+            sb.append(words[i]);
+        }
+        return sb.toString();
+    }
+    public String genSpace(int n){
+        StringBuilder sb = new StringBuilder();
+        while(n-->0){
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+}
