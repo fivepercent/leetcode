@@ -1,0 +1,28 @@
+public class Solution {
+    public String simplifyPath(String path) {
+        if(path==null||path.length()==0){
+            return "/";
+        }
+        String[] splited = path.split("/");
+        Stack<String> stack = new Stack<String>();
+        for(int i=0; i<splited.length; i++){
+            if(splited[i].equals("..")){
+                if(!stack.isEmpty())stack.pop();
+            }else if(splited[i].equals(".")){
+                continue;
+            }else if(splited[i].length()>0){
+                stack.push(splited[i]);
+            }
+        }
+        if(stack.isEmpty()){
+            return "/";
+        }
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()){
+            String current = stack.pop();
+            sb.insert(0,current);
+            sb.insert(0, '/');
+        }
+        return sb.toString();
+    }
+}
