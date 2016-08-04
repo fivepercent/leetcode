@@ -1,0 +1,62 @@
+public class Solution {
+    public void setZeroes(int[][] matrix) {
+        if(matrix==null||matrix.length==0){
+            return;
+        }
+        boolean firstRow=false;
+        boolean firstCol=false;
+        if(matrix[0][0]==0){
+            firstRow=true;
+            firstCol=true;
+        }
+        for(int i=1; i<matrix.length; i++){
+            if(matrix[i][0]==0){
+                firstCol=true;
+                matrix[i][0]=0;
+            }
+        }
+        for(int j=1; j<matrix[0].length; j++){
+            if(matrix[0][j]==0){
+                firstRow=true;
+                matrix[0][j]=0;
+            }
+        }        
+        for(int i=1; i<matrix.length; i++){
+            for(int j=1; j<matrix[0].length; j++){
+                if(matrix[i][j]==0){
+                    matrix[i][0]=0;
+                    matrix[0][j]=0;
+                }
+            }
+        }
+        for(int i=1; i<matrix.length; i++){
+            if(matrix[i][0]==0){
+                setZeroesTo(matrix, i, true);
+            }
+        }
+        for(int j=1; j<matrix[0].length; j++){
+            if(matrix[0][j]==0){
+                setZeroesTo(matrix, j, false);
+            }
+        }
+        if(firstRow){
+            matrix[0][0]=0;
+            setZeroesTo(matrix, 0, true);
+        }
+        if(firstCol){
+            matrix[0][0]=0;
+            setZeroesTo(matrix, 0, false);
+        }
+    }
+    public void setZeroesTo(int[][] matrix, int index, boolean isRow){
+        if(isRow){
+            for(int i=1; i<matrix[0].length; i++){
+                matrix[index][i]=0;
+            }
+        }else{
+            for(int i=1; i<matrix.length; i++){
+                matrix[i][index]=0;
+            }
+        }
+    }
+}
