@@ -5,21 +5,20 @@ public class Solution {
             return result;
         }
         List<Integer> combination = new ArrayList<Integer>();
-        addCombination(result, combination, n, k);
+        addCombination(result, combination, n, k, 1);
         return result;
     }
-    public void addCombination(List<List<Integer>> lists, List<Integer> combination, int n, int k){
+    public void addCombination(List<List<Integer>> lists, List<Integer> combination, int n, int k, int start){
         if(combination.size()==k){
             List<Integer> list = new ArrayList<Integer>(combination);
             lists.add(list);
             return;
         }
         int len=combination.size();
-        int start=len==0?1:combination.get(len-1)+1;
         //pay attention to the range of i
         for(int i=start; i<=n; i++){
             combination.add(i);
-            addCombination(lists, combination, n, k);
+            addCombination(lists, combination, n, k, i+1);
             combination.remove(len);
         }
     }
