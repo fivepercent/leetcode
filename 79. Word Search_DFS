@@ -1,0 +1,46 @@
+public class Solution {
+    public boolean exist(char[][] board, String word) {
+        if(word==null||word.length()==0){
+            return true;
+        }
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        int len = board[0].length;
+        int hgt = board.length;        
+        for(int i=0; i<hgt; i++){
+            for(int j=0; j<len; j++){
+                if(charExist(board, i, j, word, path)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean charExist(char[][]board, int row, int col, String word, ArrayList<Integer> path){
+        if(word.length()==0||word==null){
+            return true;
+        }
+        int len = board[0].length;
+        int hgt = board.length;
+        //should check duplicates and OutOfRange here.
+        if(row<0||row>hgt-1||col<0||col>len-1||path.contains(row*len+col)){
+            return false;
+        }
+        if(board[row][col]==word.charAt(0)){
+            path.add(row*len+col);
+            if(charExist(board, row-1, col, word.substring(1), path)){
+                return true;
+            }
+            if(charExist(board, row+1, col, word.substring(1), path)){
+                return true;
+            }
+            if(charExist(board, row, col-1, word.substring(1), path)){
+                return true;
+            }
+            if(charExist(board, row, col+1, word.substring(1), path)){
+                return true;
+            }
+            path.remove(path.size()-1);
+        }
+        return false;
+    }
+}
