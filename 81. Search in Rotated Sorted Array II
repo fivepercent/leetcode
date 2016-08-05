@@ -1,0 +1,35 @@
+public class Solution {
+    public boolean search(int[] nums, int target) {
+        if(nums==null||nums.length==0){
+            return false;
+        }
+        return BinarySearchHelper(nums, target, 0, nums.length-1);
+    }
+    public boolean BinarySearchHelper(int[] nums, int target, int start, int end){
+        if(start==end){
+            return nums[start]==target;
+        }
+        int mid=(start+end)/2;
+        if(target==nums[mid]){
+            return true;
+        }else if(target<nums[mid]){
+            if(nums[start]>nums[mid]){
+                return BinarySearchHelper(nums, target, start, mid);
+            }else if(nums[start]==nums[mid]&&nums[end]<nums[start]){
+                return BinarySearchHelper(nums, target, mid+1, end);
+            }else{
+                boolean left= BinarySearchHelper(nums, target, start,mid);
+                return left?true:BinarySearchHelper(nums, target, mid+1, end);
+            }
+        }else{
+            if(nums[end]<nums[mid]){
+                return BinarySearchHelper(nums, target, mid+1, end);
+            }else if(nums[end]==nums[mid]&&nums[start]>nums[end]){
+                return BinarySearchHelper(nums, target, start, mid);
+            }else{
+                boolean left= BinarySearchHelper(nums, target, start,mid);
+                return left?true:BinarySearchHelper(nums, target, mid+1, end);                
+            }
+        }
+    }
+}
