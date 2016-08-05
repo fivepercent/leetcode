@@ -5,6 +5,7 @@ public class Solution {
         }
         return BinarySearchHelper(nums, target, 0, nums.length-1);
     }
+    //worst case [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1]
     public boolean BinarySearchHelper(int[] nums, int target, int start, int end){
         if(start==end){
             return nums[start]==target;
