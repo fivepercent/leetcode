@@ -1,0 +1,20 @@
+//use Gray code definition.
+public class Solution {
+    public List<Integer> grayCode(int n) {
+        List<Integer> result = new ArrayList<Integer>();
+        int max= (1<<n)-1;
+        for(int i=0; i<=max; i++){
+            int bits =n;
+            int gray=0;
+            while(bits>0){
+                int previous=(i>>bits)&1;
+                int current=(i>>(bits-1))&1;
+                //+ has higher priority than <<, need to add ();
+                gray=(gray<<1)+previous^current;
+                bits--;
+            }
+            result.add(gray);
+        }
+        return result;
+    }
+}
