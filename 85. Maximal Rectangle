@@ -20,6 +20,7 @@ public class Solution {
         Stack<Integer> stack = new Stack<Integer>();
         int maxArea=0;
         for(int i=0; i<n; i++){
+        //Use 84.Largest Rectangle in Histogram method.
             for(int j=0; j<m; j++){
                 while(!stack.isEmpty()&&coordination[i][j]<=coordination[i][stack.peek()]){
                     int lastPeak=coordination[i][stack.pop()];
