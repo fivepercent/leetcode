@@ -1,0 +1,52 @@
+public class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix==null||matrix.length==0){
+            return 0;
+        }
+        int n=matrix.length;
+        int m=matrix[0].length;
+        int[][] coordination= new int[n][m];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(i==0){
+                    coordination[i][j]=matrix[i][j]=='1'?1:0;
+                }else{
+                    coordination[i][j]=matrix[i][j]=='1'?coordination[i-1][j]+1:0;
+                }
+         //       System.out.println("("+i+", "+j+"): "+coordination[i][j]);
+            }
+        }
+        
+        Stack<Integer> stack = new Stack<Integer>();
+        int maxArea=0;
+        for(int i=0; i<n; i++){
+            stack.push(0);
+            int maxInline=coordination[i][0];
+            for(int j=1; j<m; j++){
+                while(!stack.isEmpty()&&coordination[i][j]<=coordination[i][stack.peek()]){
+                    int lastPeak=coordination[i][stack.pop()];
+                    int area;
+                    if(stack.isEmpty()){
+                        area=j*lastPeak;
+                    }else{
+                        area=(j-stack.peek()-1)*lastPeak;
+                    }
+                    maxInline=Math.max(maxInline, area);
+                }
+                stack.push(j);
+            }
+            while(!stack.isEmpty()){
+                int currentPeak=coordination[i][stack.pop()];
+                int area;
+                if(stack.isEmpty()){
+                    area=m*currentPeak;
+                }else{
+                    area=(m-stack.peek()-1)*currentPeak;
+                }
+                maxInline=Math.max(maxInline, area);
+            }
+            maxArea=Math.max(maxArea, maxInline);
+        }
+        return maxArea;
+    }
+}
