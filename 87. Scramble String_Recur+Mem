@@ -1,0 +1,54 @@
+public class Solution {
+    public boolean isScramble(String s1, String s2) {
+        if(s1==null||s2==null){
+            return false;
+        }
+        int length=s1.length();
+        if(length!=s2.length()){
+            return false;
+        }
+        if(s1.equals(s2)){
+            return true;
+        }
+        char[] array1= s1.toCharArray();
+        char[] array2= s2.toCharArray();
+        Arrays.sort(array1);
+        Arrays.sort(array2);
+        //do not directly use toString() to sorted char array, generate a new string;
+        String a1 = new String(array1);
+        String a2 = new String(array2);
+        if(!a1.equals(a2)){
+            return false;
+        }
+        int[][][] cache = new int[length][length][length];
+        for(int i=0; i<length; i++){
+            for(int j=0; j<length; j++){
+                for(int m=0; m<length; m++){
+                    cache[i][j][m]=-1;
+                }
+            }
+        }
+        return isScrambleHelper(s1, 0, s2, 0, length, cache);
+    }
+    public boolean isScrambleHelper(String s1, int index1, String s2, int index2, int len, int[][][] cache){
+        if(cache[index1][index2][len-1]!=-1){
+            return cache[index1][index2][len-1]==1?true:false;
+        }
+        if(len==1){
+            return s1.charAt(index1)==s2.charAt(index2);
+        }
+        for(int i=1; i<len;i++){
+            if(isScrambleHelper(s1, index1, s2, index2, i, cache)&&isScrambleHelper(s1, index1+i, s2, index2+i, len-i, cache)){
+                cache[index1][index2][len-1]=1;
+                return true;
+            }
+            if(isScrambleHelper(s1, index1, s2, index2+len-i, i, cache)&&isScrambleHelper(s1, index1+i, s2, index2, len-i, cache)){
+                cache[index1][index2][len-1]=1;
+                return true;
+            }            
+        }
+        cache[index1][index2][len-1]=0;
+        return false;
+    }
+    
+}
