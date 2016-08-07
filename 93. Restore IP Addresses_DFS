@@ -4,6 +4,7 @@ public class Solution {
         if(s==null||s.length()==0||s.length()<4||s.length()>12){
             return result;
         }
+        //alternally use ArrayList to replace StringBuilder.
         StringBuilder ip = new StringBuilder();
         generateIPaAddresses(result, s, 0, 0, ip);
         return result;
