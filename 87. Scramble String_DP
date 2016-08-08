@@ -1,0 +1,43 @@
+public class Solution {
+    public boolean isScramble(String s1, String s2) {
+        if(s1==null||s2==null){
+            return false;
+        }
+        int length=s1.length();
+        if(length!=s2.length()){
+            return false;
+        }
+        if(s1.equals(s2)){
+            return true;
+        }
+        char[] a1=s1.toCharArray();
+        char[] a2=s2.toCharArray();
+        Arrays.sort(a1);
+        Arrays.sort(a2);
+        String sa1=new String(a1);
+        String sa2=new String(a2);
+        if(!sa1.equals(sa2)){
+          //  System.out.println("hahaha");
+            return false;
+        }
+        boolean[][][] DP = new boolean[length][length][length+1];
+        for(int m=1; m<=length; m++){
+            for(int i=0; i<=length-m; i++){
+                for(int j=0; j<=length-m; j++){
+                    if(m==1){
+                        DP[i][j][m]=s1.charAt(i)==s2.charAt(j);
+                        continue;
+                    }
+                    DP[i][j][m]=false;
+                    for(int n=1; n<m; n++){
+                        if((DP[i][j][n]&&DP[i+n][j+n][m-n])||(DP[i][j+m-n][n]&&DP[i+n][j][m-n])){
+                            DP[i][j][m]=true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return DP[0][0][length];
+    }
+}
