@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        result rst=isValidBSTHelper(root);
+        return rst.isBST;
+    }
+    public result isValidBSTHelper(TreeNode root){
+        if(root==null){
+            return new result(true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+        result left = isValidBSTHelper(root.left);
+        result right= isValidBSTHelper(root.right);
+        //for null, min set to MAX_VALE, max set to MIN_VALUE. Be careful when comparing value
+        if(!left.isBST||!right.isBST){
+            return new result(false, 0, 0);
+        }
+        if((root.left!=null&&root.val<=left.max)||(root.right!=null&&root.val>=right.min)){
+            return new result(false, 0, 0);
+        }
+        return new result(true, Math.max(right.max, root.val), Math.min(left.min, root.val));
+    }
+}
+class result{
+    boolean isBST;
+    int max;
+    int min;
+    public result(boolean isBST, int max, int min){
+        this.isBST=isBST;
+        this.max=max;
+        this.min=min;
+    }
+}
