@@ -1,0 +1,25 @@
+public class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        ListNode node=head;
+        int length=0;
+        while(node!=null){
+            length++;
+            node=node.next;
+        }
+        return sortedListToBST(head, length);
+    }
+    public TreeNode sortedListToBST(ListNode node, int length){
+        if(length==0){
+            return null;
+        }
+        int index=length/2;
+        ListNode n=node;
+        while(index-->0){
+            n=n.next;
+        }
+        TreeNode root=new TreeNode(n.val);
+        root.left=sortedListToBST(node, length/2);
+        root.right=sortedListToBST(n.next, length-1-length/2);
+        return root;
+    }
+}
