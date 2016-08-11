@@ -18,6 +18,9 @@ public class Solution {
         return result;
     }
     public void pathSumHelper(List<List<Integer>> result, TreeNode root, int sum, List<Integer> route){
+        if(root==null){
+            return;
+        }
         if(root.left==null&&root.right==null){
             if(root.val==sum){
                 List<Integer> list= new ArrayList<Integer>(route);
@@ -27,12 +30,8 @@ public class Solution {
             return;
         }
         route.add(root.val);
-        if(root.left!=null){
-            pathSumHelper(result, root.left, sum-root.val, route);
-        }
-        if(root.right!=null){
-            pathSumHelper(result, root.right, sum-root.val, route);
-        }
+        pathSumHelper(result, root.left, sum-root.val, route);
+        pathSumHelper(result, root.right, sum-root.val, route);
         route.remove(route.size()-1);
     }
 }
