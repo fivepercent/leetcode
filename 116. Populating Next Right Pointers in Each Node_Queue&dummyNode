@@ -20,6 +20,7 @@ public class Solution {
                 child.next=childrens.peek();
                 if(child.left!=null)childrens.offer(child.left);
                 if(child.right!=null)childrens.offer(child.right);
+                //careful if Queue is already empty.
             }else if(!childrens.isEmpty()){
                 childrens.offer(null);
             }
