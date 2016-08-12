@@ -1,0 +1,21 @@
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        //rowIndex==0 means first row.
+        List<Integer> result= new ArrayList<Integer>();
+        if(rowIndex<0){
+            return result;
+        }
+        int[] array= new int[rowIndex+1];
+        array[0]=1;
+        for(int i=2; i<=rowIndex+1; i++){
+            array[i-1]=1;
+            for(int j=i-2; j>0; j--){
+                array[j]+=array[j-1];
+            }
+        }
+        for(int i=0; i<rowIndex+1; i++){
+            result.add(array[i]);
+        }
+        return result;
+    }
+}
