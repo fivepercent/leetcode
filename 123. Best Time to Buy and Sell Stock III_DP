@@ -8,23 +8,13 @@ public class Solution {
         int[] rightMax=new int[size];
         int lowPrice=prices[0];
         for(int i=1; i<size; i++){
-            int revenue=prices[i]-lowPrice;
-            leftMax[i]=leftMax[i-1];
-            if(revenue>leftMax[i]){
-                leftMax[i]=revenue;
-            }else if(revenue<0){
-                lowPrice=prices[i];
-            }
+            lowPrice=Math.min(lowPrice, prices[i]);
+            leftMax[i]=Math.max(leftMax[i-1], prices[i]-lowPrice);
         }
         int highPrice=prices[size-1];
         for(int i=size-2; i>=0; i--){
-            int revenue=highPrice-prices[i];
-            rightMax[i]=rightMax[i+1];
-            if(revenue>rightMax[i]){
-                rightMax[i]=revenue;
-            }else if(revenue<0){
-                highPrice=prices[i];
-            }
+            highPrice=Math.max(highPrice, prices[i]);
+            rightMax[i]=Math.max(rightMax[i+1], highPrice-prices[i]);
         }
         int maxProfit=0;
         for(int i=0; i<size; i++){
