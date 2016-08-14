@@ -1,0 +1,32 @@
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> partitions= new ArrayList<List<String>>();
+        List<String> partition=new ArrayList<String>();
+        int[][] DP= new int[s.length()+1][s.length()+1];
+        partitionHelper(partitions, partition, s, 0, DP);
+        return partitions;
+    }
+    public void partitionHelper(List<List<String>> partitions, List<String> partition, String s, int index, int[][] DP){
+        int length= s.length();
+        if(index==length){
+            partitions.add(new ArrayList<String>(partition));
+            return;
+        }
+        for(int i=index+1; i<=length; i++){
+            if(DP[index][i]==0){
+                String current= s.substring(index, i);
+                DP[index][i]=isPalindrome(current)?1:-1;
+            }
+            if(DP[index][i]<0){
+                continue;
+            }
+            partition.add(s.substring(index, i));
+            partitionHelper(partitions, partition, s, i, DP);
+            partition.remove(partition.size()-1);
+        }
+    }
+    public boolean isPalindrome(String target){
+        StringBuilder sb = new StringBuilder(target);
+        return target.equals(sb.reverse().toString());
+    }
+}
