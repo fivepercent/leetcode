@@ -1,0 +1,71 @@
+public class Solution {
+    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+        HashSet<String> visited = new HashSet<String>();
+        Queue<String> q = new LinkedList<String>();
+        q.offer(beginWord);
+        int length =1;
+        while(!q.isEmpty()){
+            length++;
+            int queueLength=q.size();
+            for(int i=0; i<queueLength;i++){
+                String internal =q.poll();
+                //strs in the neighbour are also each other's neighbour.
+                for(String neighbour: getNextWord(internal, wordList)){
+                    if(visited.contains(neighbour)){
+                        continue;
+                    }else if(neighbour.equals(endWord)){
+                        return length;
+                    }else{
+                        q.offer(neighbour);
+                        //add str into visited here
+                        visited.add(neighbour);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    public ArrayList<String> getNextWord(String target, Set<String> wordList){
+        if(wordList.size()<26){
+            return getNextWordSmall(target, wordList);
+        }else{
+            return getNextWordLarge(target, wordList);
+        }
+    }
+    
+    public ArrayList<String> getNextWordSmall(String target, Set<String> wordList){
+        ArrayList<String> neighbours = new ArrayList<String>();
+        for(String str: wordList){
+            if(isNeighbour(target, str)){
+                neighbours.add(str);
+            }
+        }
+        return neighbours;
+    }
+    public boolean isNeighbour(String str1, String str2){
+        int diff=0;
+        for(int i=0; i<str1.length(); i++){
+            if(str1.charAt(i)!=str2.charAt(i)){
+                diff++;
+            }
+        }
+        return diff==1;
+    }
+    
+    public ArrayList<String> getNextWordLarge(String target, Set<String> wordList){
+        int length=target.length();
+        ArrayList<String> neighbours = new ArrayList<String>();
+        for(int i=0; i<length; i++){
+            StringBuilder sb = new StringBuilder(target);
+            for(int j=0; j<26; j++){
+                //convert int to char
+                sb.setCharAt(i, (char)('a'+j));
+                String current=sb.toString();
+                if(wordList.contains(current)){
+                    neighbours.add(current);
+                }
+            }
+        }
+        return neighbours;
+    }
+}
