@@ -1,0 +1,63 @@
+public class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, Set<String> wordList) {
+        Map<String, List<String>> WordMap = new HashMap<String, List<String>>();
+        Map<String, Integer> distance = new HashMap<String, Integer>();
+        BFSbuildMap(WordMap, distance, wordList, beginWord);
+        List<List<String>> sequences = new ArrayList<List<String>>();
+        List<String> path = new ArrayList<String>();
+        DFSfindSequence(sequences, path, WordMap, distance, beginWord, endWord);
+        return sequences;
+        
+    }
+    public void DFSfindSequence(List<List<String>> sequences, List<String> path, Map<String, List<String>> WordMap, Map<String, Integer> distance, String start, String internal){
+        path.add(0, internal);
+        if(internal.equals(start)){
+            sequences.add(new ArrayList<String>(path));
+        }else{
+            for(String str: WordMap.get(internal)){
+                if(distance.containsKey(str)&&distance.get(internal)==distance.get(str)+1){
+                    DFSfindSequence(sequences, path, WordMap, distance, start, str);
+                }
+            }
+        }
+        path.remove(0);
+    }
+    public void BFSbuildMap(Map<String, List<String>> WordMap, Map<String, Integer> distance, Set<String> wordList, String start){
+        Queue<String> q= new LinkedList<String>();
+        for(String str:wordList){
+            WordMap.put(str, new ArrayList<String>());
+        }
+        q.add(start);
+        distance.put(start, 0);
+        while(!q.isEmpty()){
+            String current=q.poll();
+            ArrayList<String> neighbours =getNextWord(current, wordList);
+            for(String neighbour: neighbours){
+                WordMap.get(neighbour).add(current);
+                if(!distance.containsKey(neighbour)){
+                    distance.put(neighbour, distance.get(current)+1);
+                    q.offer(neighbour);
+                }
+            }
+        }
+        
+    }
+    public ArrayList<String> getNextWord(String target, Set<String> wordList){
+        int length=target.length();
+        ArrayList<String> neighbours = new ArrayList<String>();
+        for(int i=0; i<length; i++){
+            StringBuilder sb = new StringBuilder(target);
+            for(int j=0; j<26; j++){
+                //convert int to char
+                sb.setCharAt(i, (char)('a'+j));
+                String current=sb.toString();
+                //should not add itself into neighbour list
+                if(!current.equals(target)&&wordList.contains(current)){
+                    neighbours.add(current);
+                }
+            }
+        }
+        return neighbours;
+    }
+    
+}
