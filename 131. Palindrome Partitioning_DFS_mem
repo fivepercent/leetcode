@@ -25,8 +25,21 @@ public class Solution {
             partition.remove(partition.size()-1);
         }
     }
-    public boolean isPalindrome(String target){
+/*    public boolean isPalindrome(String target){
         StringBuilder sb = new StringBuilder(target);
         return target.equals(sb.reverse().toString());
+    } */
+    //faster than reverse();
+    public boolean isPalindrome(String target){
+        int start=0;
+        int end=target.length()-1;
+        while(start<end){
+            if(target.charAt(start)!=target.charAt(end)){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
     }
 }
