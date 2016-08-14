@@ -1,0 +1,27 @@
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> partitions= new ArrayList<List<String>>();
+        List<String> partition=new ArrayList<String>();
+        partitionHelper(partitions, partition, s);
+        return partitions;
+    }
+    public void partitionHelper(List<List<String>> partitions, List<String> partition, String s){
+        if(s.length()==0){
+            partitions.add(new ArrayList<String>(partition));
+            return;
+        }
+        int length= s.length();
+        for(int i=1; i<=length; i++){
+            String current= s.substring(0, i);
+            if(isPalindrome(current)){
+                partition.add(current);
+                partitionHelper(partitions, partition, s.substring(i));
+                partition.remove(partition.size()-1);
+            }
+        }
+    }
+    public boolean isPalindrome(String target){
+        StringBuilder sb = new StringBuilder(target);
+        return target.equals(sb.reverse().toString());
+    }
+}
