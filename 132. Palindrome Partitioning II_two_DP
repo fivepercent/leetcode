@@ -1,0 +1,33 @@
+public class Solution {
+    public int minCut(String s) {
+        int len=s.length();
+        int[] DP = new int[len+1];
+        boolean[][] isPalin =isPalindrome(s);
+        for(int i=0; i<=len;i++){
+            DP[i]=i-1;
+            for(int j=0; j<i; j++){
+                if(isPalin[j][i-1]){
+                    DP[i]=Math.min(DP[i], DP[j]+1);
+                }
+            }
+        }
+  //      System.out.println(DP[3]);
+        return DP[len];
+    }
+    public boolean[][] isPalindrome(String target){
+        int len =target.length();
+        boolean[][] isPalin= new boolean[len][len];
+        for(int i=0; i<len; i++){
+            isPalin[i][i]=true;
+        }
+        for(int i=0; i<len-1; i++){
+            isPalin[i][i+1]=target.charAt(i)==target.charAt(i+1);
+        }
+        for(int i=2; i<len; i++){
+            for(int j=0; j<i-1;j++){
+                isPalin[j][i]=isPalin[j+1][i-1]&&(target.charAt(j)==target.charAt(i));
+            }
+        }
+        return isPalin;
+    }
+}
