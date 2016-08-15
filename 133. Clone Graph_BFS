@@ -1,0 +1,39 @@
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
+public class Solution {
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if(node==null){
+            return null;
+        }
+        HashSet<UndirectedGraphNode> visited = new HashSet<UndirectedGraphNode>();
+        Queue<UndirectedGraphNode> queue_orig= new LinkedList<UndirectedGraphNode>();
+        HashMap<Integer, UndirectedGraphNode> map_copy= new HashMap<Integer, UndirectedGraphNode>();
+        UndirectedGraphNode node_copy = new UndirectedGraphNode(node.label);
+        queue_orig.offer(node);
+        map_copy.put(node_copy.label, node_copy);
+        visited.add(node);
+        while(!queue_orig.isEmpty()){
+            UndirectedGraphNode orig = queue_orig.poll();
+            UndirectedGraphNode copy = map_copy.get(orig.label);
+            for(UndirectedGraphNode neighbor_orig: orig.neighbors){
+                if(!visited.contains(neighbor_orig)){
+                    UndirectedGraphNode neighbor_copy = new UndirectedGraphNode(neighbor_orig.label);
+                    copy.neighbors.add(neighbor_copy);
+                    queue_orig.offer(neighbor_orig);
+                    map_copy.put(neighbor_copy.label, neighbor_copy);
+                    visited.add(neighbor_orig);
+                }else {
+                    copy.neighbors.add(map_copy.get(neighbor_orig.label));
+                }
+                
+            }
+        }
+        return node_copy;
+    }
+}
