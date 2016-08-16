@@ -1,0 +1,19 @@
+public class Solution {
+    public boolean wordBreak(String s, Set<String> wordDict) {
+        int len=s.length();
+        if(len==0){
+            return true;
+        }
+        boolean[] DP = new boolean[len+1];
+        DP[0]=true;
+        for(int i=0; i<len; i++){
+            if(DP[i]==false)continue;
+            for(int j=i; j<len; j++){
+                if(wordDict.contains(s.substring(i, j+1))){
+                    DP[j+1]=true;
+                }
+            }
+        }
+        return DP[len];
+    }
+}
