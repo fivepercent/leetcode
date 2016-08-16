@@ -1,0 +1,45 @@
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if(head==null){
+            return null;
+        }
+        HashMap<RandomListNode, RandomListNode> visited = new HashMap<RandomListNode, RandomListNode>();
+        Queue<RandomListNode> queue = new LinkedList<RandomListNode>();
+        RandomListNode head_copy = new RandomListNode(head.label);
+        queue.offer(head);
+        visited.put(head, head_copy);
+        while(!queue.isEmpty()){
+            RandomListNode node_orig=queue.poll();
+            RandomListNode node_copy=visited.get(node_orig);
+            if(node_orig.next!=null){
+                if(!visited.containsKey(node_orig.next)){
+                    RandomListNode nodeNext= new RandomListNode(node_orig.next.label);
+                    node_copy.next=nodeNext;
+                    queue.offer(node_orig.next);
+                    visited.put(node_orig.next, nodeNext);
+                }else{
+                    node_copy.next=visited.get(node_orig.next);
+                }
+            }
+            if(node_orig.random!=null){
+                if(!visited.containsKey(node_orig.random)){
+                    RandomListNode nodeRandom= new RandomListNode(node_orig.random.label);
+                    node_copy.random=nodeRandom;
+                    queue.offer(node_orig.random);
+                    visited.put(node_orig.random, nodeRandom);
+                }else{
+                    node_copy.random=visited.get(node_orig.random);
+                }
+            }
+        }
+        return head_copy;
+    }
+}
