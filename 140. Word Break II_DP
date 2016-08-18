@@ -1,0 +1,37 @@
+public class Solution {
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+        List<String> result =new ArrayList<String>();
+        if(s==null||s.length()==0){
+            return result;
+        }
+        List<String> words= new ArrayList<String>();
+        boolean[] possibles= new boolean[s.length()+1];
+        wordBreakHelper(s, wordDict, 0, words, result, possibles);
+        return result;
+    }
+    public void wordBreakHelper(String s, Set<String> wordDict, int start, List<String> words, List<String> result, boolean[] possibles){
+        int len = s.length();
+        if(start==len){
+            StringBuilder sb = new StringBuilder(words.get(0));
+            for(int i=1; i<words.size(); i++){
+                sb.append(" ");
+                sb.append(words.get(i));
+            }
+            result.add(sb.toString());
+            return;
+        }
+        for(int i=start+1; i<=len; i++){
+            String current =s.substring(start, i);
+            if(wordDict.contains(current)&&!possibles[i]){
+                int lastSize=result.size();
+                words.add(current);
+                wordBreakHelper(s, wordDict, i, words, result, possibles);
+                words.remove(words.size()-1);
+                if(result.size()==lastSize){
+                    //reverse true and false;
+                    possibles[i]=true;
+                }
+            }
+        }
+    }
+}
