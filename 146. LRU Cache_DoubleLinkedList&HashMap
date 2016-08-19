@@ -1,0 +1,62 @@
+public class LRUCache {
+    class Node{
+        int key;
+        int value;
+        Node next=null;
+        Node pre=null;
+        public Node(int k, int v){
+            key=k;
+            value=v;
+        }
+    }
+    public int capacity;
+    private HashMap<Integer, Node> LRUmap = new HashMap<Integer, Node>();
+    private Node latest = new Node(-1, -1);
+    private Node oldest = new Node(-1, -1);
+    
+    public LRUCache(int capacity) {
+        this.capacity=capacity;
+        latest.next=oldest;
+        oldest.pre=latest;
+    }
+    
+    public int get(int key) {
+        if(!LRUmap.containsKey(key)){
+            return -1;
+        }
+        Node cur = LRUmap.get(key);
+        setLatest(latest, cur);
+        return cur.value;
+    }
+    
+    public void set(int key, int value) {
+        if(LRUmap.containsKey(key)){
+            Node cur=LRUmap.get(key);
+            cur.value=value;
+            setLatest(latest, cur);
+            return;
+        }
+        if(LRUmap.size()==capacity){
+            int oldest_key = oldest.pre.key;
+            LRUmap.remove(oldest_key);
+            oldest.pre.pre.next=oldest;
+            oldest.pre=oldest.pre.pre;
+        }
+        Node newNode = new Node(key, value);
+        newNode.next=latest.next;
+        latest.next.pre=newNode;
+        newNode.pre=latest;
+        latest.next=newNode;
+        LRUmap.put(key, newNode);
+   //     System.out.println(LRUmap.get(key).value);
+    }
+    
+    public void setLatest(Node latest, Node cur){
+        if(cur.pre!=null)cur.pre.next=cur.next;
+        if(cur.next!=null)cur.next.pre=cur.pre;
+        cur.next=latest.next;
+        latest.next.pre=cur;
+        cur.pre=latest;
+        latest.next=cur;
+    }
+}
