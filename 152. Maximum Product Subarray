@@ -1,0 +1,21 @@
+public class Solution {
+    public int maxProduct(int[] nums) {
+        int len = nums.length;
+        int[] maxProducts = new int[len];
+        int[] minProducts = new int[len];
+        maxProducts[0]=nums[0];
+        minProducts[0]=nums[0];
+        int max=nums[0];
+        for(int i=1; i<len; i++){
+            if(nums[i]>0){
+                maxProducts[i]=Math.max(nums[i], maxProducts[i-1]*nums[i]);
+                minProducts[i]=Math.min(nums[i], minProducts[i-1]*nums[i]);
+            }else{
+                maxProducts[i]=Math.max(nums[i], minProducts[i-1]*nums[i]);
+                minProducts[i]=Math.min(nums[i], maxProducts[i-1]*nums[i]);
+            }
+            max = Math.max(maxProducts[i], max);
+        }
+        return max;
+    }
+}
