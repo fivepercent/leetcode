@@ -1,0 +1,47 @@
+public class Solution {
+    public int maximumGap(int[] nums) {
+        int len = nums.length;
+        if(len<2){
+            return 0;
+        }
+        int max=-1;
+        for(int i=0; i<len; i++){
+            max=nums[i]>max?nums[i]:max;
+        }
+        int digits=0;
+        while(max>0){
+            digits++;
+            max=max/10;
+        }
+        //radix sort
+        int[] order = new int[10];
+        int[][] cache = new int[10][len];
+        int m=1;
+        int shift=1;
+        while(m<=digits){
+            int index=0;
+            for(int i=0; i<len; i++){
+                int lsd = (nums[i]/shift)%10;
+                cache[lsd][order[lsd]]=nums[i];
+                order[lsd]++;
+            }
+            for(int i=0; i<10; i++){
+                for(int j=0; j<order[i]; j++){
+                    nums[index++]=cache[i][j];
+                }
+                //Don't forget clear order[i] before next use
+                order[i]=0;
+            }
+            m++;
+            shift*=10;
+        }
+        int maxGap=0;
+        for(int i=1; i<len; i++){
+            int gap=nums[i]-nums[i-1];
+            if(gap>maxGap){
+                maxGap=gap;
+            }
+        }
+        return maxGap;
+    }
+}
