@@ -1,0 +1,48 @@
+public class Solution {
+    public int maximumGap(int[] nums) {
+        int len=nums.length;
+        if(len<2){
+            return 0;
+        }
+        //bucket sort
+        int maxValue=-1;
+        int minValue=Integer.MAX_VALUE;
+        for(int i=0; i<len; i++){
+            maxValue=nums[i]>maxValue?nums[i]:maxValue;
+            minValue=nums[i]<minValue?nums[i]:minValue;
+        }
+        int bucketLen=(maxValue-minValue)/len +1;
+        int bucketNum=(maxValue-minValue)/bucketLen+1;
+        int[] minBuckets = new int[bucketNum];
+        int[] maxBuckets = new int[bucketNum];
+        //fill -1 to indicate empty
+        Arrays.fill(maxBuckets, -1);
+        for(int i=0; i<len; i++){
+            int index=(nums[i]-minValue)/bucketLen;
+            if(maxBuckets[index]==-1){
+                minBuckets[index]=nums[i];
+                maxBuckets[index]=nums[i];
+            }else{
+                if(nums[i]>maxBuckets[index]){
+                    maxBuckets[index]=nums[i];
+                }
+                if(nums[i]<minBuckets[index]){
+                    minBuckets[index]=nums[i];
+                }
+            }
+        }
+        int pre=0;
+        int maxGap=0;
+        for(int i=1; i<bucketNum; i++){
+            if(maxBuckets[i]==-1){
+                continue;
+            }
+            int gap = minBuckets[i]-maxBuckets[pre];
+            if(gap>maxGap){
+                maxGap=gap;
+            }
+            pre=i;
+        }
+        return maxGap;
+    }
+}
