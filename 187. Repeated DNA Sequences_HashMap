@@ -1,0 +1,23 @@
+public class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        List<String> res = new ArrayList<String>();
+        int len=s.length();
+        if(len<=10){
+            return res;
+        }
+        HashMap<String, Integer> hash = new HashMap<String, Integer>();
+        for(int i=0; i<=len-10; i++){
+            String cur=s.substring(i, i+10);
+            if(hash.containsKey(cur)){
+                //avoid duplicates adding into result
+                if(hash.get(cur)==1){
+                    res.add(cur);
+                }
+                hash.put(cur, hash.get(cur)+1);
+            }else{
+                hash.put(cur, 1);
+            }
+        }
+        return res;
+    }
+}
