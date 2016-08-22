@@ -1,0 +1,54 @@
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if(numerator==0){
+            return "0";
+        }
+        //should pay attention to neg value
+        boolean isNeg=(numerator>0&&denominator<0)||(numerator<0&&denominator>0);
+        //deal with overflow
+        long numerator2=numerator<0?-(long)numerator:numerator;
+        long denominator2=denominator<0?-(long)denominator:denominator;
+        boolean isRepeat=false;
+        long integer =numerator2/denominator2;
+        long left=numerator2%denominator2;
+        ArrayList<Integer> fraction= new ArrayList<Integer>();
+        //build a table to record remainders
+        HashMap<Integer, Integer> table = new HashMap<Integer, Integer>();
+        table.put((int)left, 1);
+        int index=2;
+        while(left!=0){
+            long digit=left*10/denominator2;
+            fraction.add((int)digit);
+            //corner case: left*10<denominator
+            left=(left*10)%denominator2;
+            if(table.containsKey((int)left)){
+                isRepeat=true;
+                break;
+            }
+            table.put((int)left, index++);
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(integer);
+        if(!fraction.isEmpty()){
+            sb.append(".");
+            if(isRepeat){
+                for(int i=0; i<table.get((int)left)-1; i++){
+                    sb.append(fraction.get(i));
+                }
+                sb.append("(");
+                for(int i=table.get((int)left)-1; i<fraction.size();i++){
+                    sb.append(fraction.get(i));
+                }
+                sb.append(")");
+            }else{
+                for(int i=0; i<fraction.size();i++){
+                    sb.append(fraction.get(i));
+                }
+            }
+        }
+        if(isNeg){
+            sb.insert(0, "-");
+        }
+        return sb.toString();
+    }
+}
