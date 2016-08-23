@@ -1,18 +1,18 @@
 public class Solution {
     public boolean isHappy(int n) {
         HashSet<Integer> hash = new HashSet<Integer>();
-        while(true){
+        while(n!=1){
             int next=0;
             while(n!=0){
                 next+=(n%10)*(n%10);
                 n/=10;
             }
-            if(next==1)return true;
             if(hash.contains(next)){
                 return false;
             }
             n=next;
             hash.add(n);
         }
+        return true;
     }
 }
