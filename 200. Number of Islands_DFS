@@ -1,0 +1,28 @@
+public class Solution {
+    public int numIslands(char[][] grid) {
+        int hgt=grid.length;
+        if(hgt==0)return 0;
+        int len=grid[0].length;
+        int res=0;
+        for(int i=0; i<hgt; i++){
+            for(int j=0; j<len; j++){
+                if(grid[i][j]=='1'){
+                    res++;
+                    setSurround(grid, i, j);
+                }
+            }
+        }
+        return res;
+    }
+    public void setSurround(char[][] grid, int x, int y){
+        if(x<0||x>grid.length-1||y<0||y>grid[0].length-1)return;
+        
+        if(grid[x][y]=='1'){
+            grid[x][y]='#';
+            setSurround(grid, x-1, y);
+            setSurround(grid, x+1, y);
+            setSurround(grid, x, y-1);
+            setSurround(grid, x, y+1);
+        }
+    }
+}
