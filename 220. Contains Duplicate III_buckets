@@ -1,0 +1,22 @@
+public class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        HashMap<Long, Long> buckets = new HashMap<Long, Long>();
+        //t can be negative
+        if(t<0)return false;
+        //deal with overflow
+        long width=(long)t+1;
+        for(int i=0; i<nums.length; i++){
+            long id = getBucketID(nums[i], width);
+            if(buckets.containsKey(id))return true;
+            //Duplicate can be in the nearby bucket
+            if(buckets.containsKey(id+1)&&Math.abs(buckets.get(id+1)-nums[i])<=t)return true;
+            if(buckets.containsKey(id-1)&&Math.abs(buckets.get(id-1)-nums[i])<=t)return true;
+            buckets.put(id, (long)nums[i]);
+            if(i>=k)buckets.remove(getBucketID(nums[i-k], width));
+        }
+        return false;
+    }
+    public long getBucketID(int num, long width){
+        return num>=0?num/width:(num+1)/width-1;
+    }
+}
