@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if(s.length()!=t.length())return false;
+        HashMap<Character, Character> hash = new HashMap<Character, Character>();
+        for(int i=0; i<s.length(); i++){
+            char sc=s.charAt(i);
+            char tc=t.charAt(i);
+            if((hash.containsKey(sc)&&hash.get(sc)!=tc)||(!hash.containsKey(sc)&&hash.containsValue(tc))){
+                return false;
+            }
+            if(!hash.containsKey(sc)){
+                hash.put(sc, tc);
+            }
+        }
+        return true;
+        
+    }
+}
