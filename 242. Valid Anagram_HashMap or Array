@@ -1,0 +1,25 @@
+public class Solution {
+    public boolean isAnagram(String s, String t) {
+        int len=s.length();
+        if(len!=t.length())return false;
+        //if input only has characters, then array is a faster data structure
+        HashMap<Character, Integer> hash = new HashMap<Character, Integer>();
+        for(int i=0; i<len; i++){
+            char sc=s.charAt(i);
+            if(hash.containsKey(sc)){
+                hash.put(sc, hash.get(sc)+1);
+            }else{
+                hash.put(sc, 1);
+            }
+        }
+        for(int i=0; i<len; i++){
+            char tc=t.charAt(i);
+            if(hash.containsKey(tc)&&hash.get(tc)>=1){
+                hash.put(tc, hash.get(tc)-1);
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+}
