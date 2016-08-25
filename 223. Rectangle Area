@@ -1,0 +1,14 @@
+public class Solution {
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+     //   int area= Math.abs((C-A)*(D-B))+Math.abs((G-E)*(H-F));
+        int area= (C-A)*(D-B)+(G-E)*(H-F);
+        int a=Math.max(B,F);
+        int b=Math.min(D,H);
+        int c=Math.max(A,E);
+        int d=Math.min(C,G);
+        if(a<b&&c<d){
+            area-=((b-a)*(d-c));
+        }
+        return area;
+    }
+}
